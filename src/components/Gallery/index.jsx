@@ -14,7 +14,7 @@ const Gallery = () => {
                 <div
                   key={index}
                   style={{
-                    backgroundImage: `url(/featured_optimized/${index + 1}.jpg)`,
+                    backgroundImage: `url(/featured_optimized/${index + 1}.JPG)`,
                   }}
                 ></div>
               );
