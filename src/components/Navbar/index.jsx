@@ -39,7 +39,7 @@ const Navbar = () => {
               {isSignedIn ? (
                 <button>{user.displayName}</button>
               ) : (
-                <button onClick={() => fireAuth.signIn()}>Sign In</button>
+                <button onClick={() => fireAuth.signIn()}>Hire Me</button>
               )}
             </li>
             {isSignedIn ? (
