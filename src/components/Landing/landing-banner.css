@@ -19,6 +19,8 @@
   gap: 10px;
 
   color: white;
+
+  transform: translateX(-50%);
 }
 
 .hint img {

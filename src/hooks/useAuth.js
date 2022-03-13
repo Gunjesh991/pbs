@@ -1,7 +1,7 @@
 import { useMemo, useState } from "react";
 
 import { getAuth, onAuthStateChanged } from "firebase/auth";
-import { app } from "../utils/firebase";
+import { app, fireAuth } from "../utils/firebase";
 
 export const useAuth = () => {
   const auth = getAuth(app);
@@ -14,5 +14,5 @@ export const useAuth = () => {
     console.log({ authError });
   });
 
-  return { auth, user, isSignedIn };
+  return { auth, user, isSignedIn, ...fireAuth };
 };

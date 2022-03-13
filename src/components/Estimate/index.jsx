@@ -1,0 +1,194 @@
+import React from "react";
+import EstimatePackageDropdown from "../EstimatePackageDropdown";
+import EstimatePackageRangeInput from "../EstimatePackageRangeInput";
+import EstimatePackageCheckbox from "../EstimatePackageCheckbox";
+
+import "./estimate.css";
+
+const _schemes = {
+  anniversary: [
+    [5500, 4000],
+    [13000, 9000],
+    [15000, 10000],
+    [25000, 15000],
+    [40000, 20000],
+  ],
+  "bachelorette-party": [
+    [5500, 4000],
+    [13000, 9000],
+    [15000, 10000],
+    [25000, 15000],
+    [40000, 20000],
+  ],
+  birthday: [
+    [5500, 4000],
+    [13000, 9000],
+    [15000, 10000],
+    [25000, 15000],
+    [40000, 20000],
+  ],
+  "bride-to-be": [
+    [5500, 4000],
+    [13000, 9000],
+    [15000, 10000],
+    [25000, 15000],
+    [40000, 20000],
+  ],
+  wedding: [
+    [7500, 7500],
+    [17500, 17500],
+    [20000, 20000],
+    [25000, 25000],
+    [30000, 30000],
+  ],
+  "wedding-photoshoot": [
+    [5500, 4000],
+    [13000, 8500],
+    [15000, 10000],
+    [15000, 15000],
+    [25000, 15000],
+  ],
+};
+
+const __eventType = [
+  {
+    label: "Anniversary",
+    value: "anniversary",
+  },
+  {
+    label: "Bachelorette Party",
+    value: "bachelorette-party",
+  },
+  {
+    label: "Birthday",
+    value: "birthday",
+  },
+  {
+    label: "Bride-To-Be",
+    value: "bride-to-be",
+  },
+  {
+    label: "Wedding",
+    value: "wedding",
+  },
+  {
+    label: "Wedding Photoshoot",
+    value: "wedding-photoshoot",
+  },
+];
+const __durations = [
+  {
+    value: "<4",
+    type: "hour(s)",
+  },
+  {
+    value: "<8",
+    type: "hours",
+  },
+  {
+    value: "1",
+    type: "day",
+  },
+  {
+    value: "2",
+    type: "days",
+  },
+  {
+    value: "3",
+    type: "days",
+  },
+];
+
+const Estimate = () => {
+  const [estimationObj, setEstimationObj] = React.useState(() => ({
+    eventType: "",
+    eventDuration: "",
+    cameraCount: 1,
+    videoCount: 0,
+  }));
+
+  const updateEstimationObj = (field = "", value) => {
+    setEstimationObj({
+      ...estimationObj,
+      [field]: value,
+    });
+  };
+
+  const estimation = React.useMemo(() => {
+    const typeData = _schemes[estimationObj.eventType];
+    if (!typeData) return 0;
+    const typeDurationData = typeData[estimationObj.eventDuration];
+    if (!typeDurationData) return 0;
+    return (
+      estimationObj.cameraCount * typeDurationData[0] +
+      estimationObj.videoCount * typeDurationData[1]
+    );
+  }, [estimationObj]);
+
+  return (
+    <>
+      <div className="estimate">
+        <div className="estimate__wrapper">
+          {/* header */}
+          <div className="estimate__header">
+            <section>
+              <h2>
+                <span>Estimate</span> your cost
+              </h2>
+              <small>
+                Choose packages that suits your need and analyse the estimated
+                cost for your event.
+              </small>
+            </section>
+          </div>
+          {/* package details */}
+          <EstimatePackageDropdown
+            title="Type of Event"
+            description="Pre-Wedding / Wedding / Post-Wedding / Birthday / Anniversary / Others..."
+            options={__eventType}
+            event={estimationObj.eventType}
+            changeValue={(val) => updateEstimationObj("eventType", val)}
+          />
+          <EstimatePackageCheckbox
+            title="Duration of event"
+            description="How long do you want my service for the event?"
+            options={__durations}
+            value={estimationObj.eventDuration}
+            changeValue={(val) => updateEstimationObj("eventDuration", val)}
+          />
+          <EstimatePackageRangeInput
+            title="No. of Camera(s)"
+            description="Total number of camera(s)/cameraperson required for still photos."
+            min={1}
+            count={estimationObj.cameraCount}
+            onChange={(val) => updateEstimationObj("cameraCount", val)}
+          />
+          <EstimatePackageRangeInput
+            title="No. of Video Camera(s)"
+            description="Total number of camera(s)/cameraperson required for videography (if any)."
+            min={0}
+            max={4}
+            count={estimationObj.videoCount}
+            onChange={(val) => updateEstimationObj("videoCount", val)}
+          />
+        </div>
+      </div>
+      <div className="estimation__details">
+        <section>
+          <div className="estimation__details-wrapper">
+            <div className="details">
+              <span>Estimation:</span>
+              <h3>NPR {estimation}/-</h3>
+            </div>
+            <div className="controls">
+              <button className="outlined">Skip Estimation</button>
+              <button>Looks good? Proceed</button>
+            </div>
+          </div>
+        </section>
+      </div>
+    </>
+  );
+};
+
+export default Estimate;

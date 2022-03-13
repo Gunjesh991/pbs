@@ -34,7 +34,7 @@ const Profile = () => {
         <img src={ProfileSec} alt="profile" />
       </div>
 
-      <div className="profile__description">
+      <div className="profile__description" style={{ textAlign: "left" }}>
         Contact me personally on{" "}
         <a href="mailto:gunjeshphotography@gmail.com">
           gunjeshphotography@gmail.com
