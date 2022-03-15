@@ -22,10 +22,10 @@ const Navbar = () => {
           <div className="nav__menu">
             <ul>
               <li>
-                <a href="/me">About Me</a>
+                <NavLink to="/me">About Me</NavLink>
               </li>
               <li>
-                <a href="/portfolio">Portfolio</a>
+                <NavLink to="/portfolio">Portfolio</NavLink>
               </li>
             </ul>
           </div>
@@ -41,7 +41,7 @@ const Navbar = () => {
           <div className="nav__menu">
             <ul>
               <li>
-                <a href="/estimate">Pricing</a>
+                <NavLink to="/estimate">Pricing</NavLink>
               </li>
               <li>
                 {isSignedIn ? (
