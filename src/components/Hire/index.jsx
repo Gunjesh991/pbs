@@ -1,13 +1,51 @@
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import useEstimate from "../../hooks/useEstimate";
 import "./hire.css";
 
+import { getFirestore, addDoc, collection } from "firebase/firestore";
+import { app } from "../../utils/firebase";
+import { useNavigate } from "react-router-dom";
+
 const Hire = () => {
+  const fireStore = getFirestore(app);
+  const navigate = useNavigate();
+
   const { estimationObj, estimation } = useEstimate();
+  const [personalDetails, setPersonalDetails] = useState({
+    fullName: "",
+    email: "",
+    phone: "",
+    additionalInformation: "",
+  });
+
+  const updatePersonalInfo = (field) => (e) => {
+    setPersonalDetails((prev) => ({
+      ...prev,
+      [field]: e.target.value,
+    }));
+  };
 
   const onSubmit = (e) => {
     e.preventDefault();
-    alert("Submitted");
+    const estimationData = estimation
+      ? {
+          ...estimationObj,
+          estimation,
+        }
+      : null;
+    addDoc(collection(fireStore, "hire_requests"), {
+      estimationData,
+      personalDetails,
+    })
+      .then((_doc) => {
+        console.log({ _doc });
+        alert(`Reference ID: ${_doc.id}`);
+        navigate("/");
+      })
+      .catch((err) => {
+        console.log({ err });
+        alert("There was a problem requesting. Please, try again.");
+      });
   };
 
   return (
@@ -47,22 +85,38 @@ const Hire = () => {
 
                 <div className="input__field">
                   <label htmlFor="fullName">Full Name</label>
-                  <input required type="text" name="fullName" id="fullName" />
+                  <input
+                    required
+                    type="text"
+                    name="fullName"
+                    id="fullName"
+                    value={personalDetails.fullName}
+                    onChange={updatePersonalInfo("fullName")}
+                  />
                 </div>
 
                 <div className="input__field">
                   <label htmlFor="email">Email</label>
-                  <input required type="email" name="email" id="email" />
+                  <input
+                    required
+                    type="email"
+                    name="email"
+                    id="email"
+                    value={personalDetails.email}
+                    onChange={updatePersonalInfo("email")}
+                  />
                 </div>
                 <div className="input__field">
                   <label htmlFor="phone">Phone</label>
                   <input
                     required
                     type="text"
-                    inputmode="numeric"
+                    inputMode="numeric"
                     pattern="[0-9]*"
                     name="phone"
                     id="phone"
+                    value={personalDetails.phone}
+                    onChange={updatePersonalInfo("phone")}
                   />
                 </div>
                 <div className="input__field optional">
@@ -71,6 +125,8 @@ const Hire = () => {
                     name="additionalInfo"
                     id="additionalInfo"
                     rows={6}
+                    value={personalDetails.additionalInformation}
+                    onChange={updatePersonalInfo("additionalInformation")}
                   ></textarea>
                 </div>
                 <button type="submit">Confirm Proposal</button>
