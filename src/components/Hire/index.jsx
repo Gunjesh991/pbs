@@ -1,15 +1,17 @@
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import useEstimate from "../../hooks/useEstimate";
 import "./hire.css";
 
 import { getFirestore, addDoc, collection } from "firebase/firestore";
 import { app } from "../../utils/firebase";
 import { useNavigate } from "react-router-dom";
+import { useAuth } from "../../hooks/useAuth";
 
 const Hire = () => {
   const fireStore = getFirestore(app);
   const navigate = useNavigate();
 
+  const { auth, isSignedIn } = useAuth();
   const { estimationObj, estimation } = useEstimate();
   const [personalDetails, setPersonalDetails] = useState({
     fullName: "",
@@ -17,6 +19,18 @@ const Hire = () => {
     phone: "",
     additionalInformation: "",
   });
+  const [isLoading, setLoading] = useState(false);
+
+  useEffect(() => {
+    if (!isSignedIn) return;
+    if (!auth.currentUser) return;
+    setPersonalDetails({
+      fullName: auth.currentUser.displayName,
+      email: auth.currentUser.email,
+      phone: auth.currentUser.phoneNumber,
+      additionalInformation: "",
+    });
+  }, [auth.currentUser, isSignedIn]);
 
   const updatePersonalInfo = (field) => (e) => {
     setPersonalDetails((prev) => ({
@@ -26,6 +40,7 @@ const Hire = () => {
   };
 
   const onSubmit = (e) => {
+    if (isLoading) return;
     e.preventDefault();
     const estimationData = estimation
       ? {
@@ -33,6 +48,7 @@ const Hire = () => {
           estimation,
         }
       : null;
+    setLoading(true);
     addDoc(collection(fireStore, "hire_requests"), {
       estimationData,
       personalDetails,
@@ -45,6 +61,9 @@ const Hire = () => {
       .catch((err) => {
         console.log({ err });
         alert("There was a problem requesting. Please, try again.");
+      })
+      .finally(() => {
+        setLoading(false);
       });
   };
 
@@ -66,7 +85,7 @@ const Hire = () => {
             </div>
           </div>
           {/* body */}
-          <div className="hire__body">
+          <div className={`hire__body ${isLoading ? "loading" : ""}`}>
             {/* estimation */}
             <div className="estimate__details">
               {estimation ? (
@@ -129,7 +148,9 @@ const Hire = () => {
                     onChange={updatePersonalInfo("additionalInformation")}
                   ></textarea>
                 </div>
-                <button type="submit">Confirm Proposal</button>
+                <button disabled={isLoading} type="submit">
+                  Confirm Proposal
+                </button>
               </form>
             </div>
           </div>

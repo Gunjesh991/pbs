@@ -35,6 +35,12 @@
   display: grid;
   gap: 25px;
   grid-template-columns: 5fr 5fr;
+
+  filter: opacity(1) blur(0x);
+  transition: 0.2s ease-in;
+}
+.hire__body.loading {
+  filter: opacity(0.3) blur(5x);
 }
 .hire__body .input__field {
   display: flex;
@@ -64,6 +70,7 @@
   border: none;
   border-bottom: 1px solid #333;
   font-size: 16px;
+  font-weight: 500;
 
   font-family: var(--ff-main);
 }
