@@ -2,23 +2,22 @@ import React from "react";
 
 import "./gallery.css";
 
-const Gallery = () => {
+const Gallery = ({ links = [] }) => {
+  console.log({ links });
   return (
     <div className="gallery">
       <div className="gallery__container">
         <div className="gallery__wrapper">
-          {Array(6)
-            .fill(0)
-            .map((_, index) => {
-              return (
-                <div
-                  key={index}
-                  style={{
-                    backgroundImage: `url(/featured_optimized/${index + 1}.JPG)`,
-                  }}
-                ></div>
-              );
-            })}
+          {links.map((_link, index) => {
+            return (
+              <div
+                key={index}
+                style={{
+                  backgroundImage: `url(${_link})`,
+                }}
+              ></div>
+            );
+          })}
         </div>
       </div>
     </div>

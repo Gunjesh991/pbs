@@ -6,7 +6,11 @@ const HomeView = () => {
   return (
     <>
       <LandingBanner />
-      <Gallery />
+      <Gallery
+        links={Array(6)
+          .fill(0)
+          .map((_, index) => `/featured_optimized/${index + 1}.JPG`)}
+      />
     </>
   );
 };
