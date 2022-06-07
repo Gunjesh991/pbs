@@ -9,10 +9,12 @@ import {
 } from "firebase/firestore";
 import { useState } from "react";
 import { app } from "../utils/firebase";
+import { useStorage } from "./useStorage";
 
 export const useAdminPhotographers = () => {
   const fireStore = getFirestore(app);
   const table = collection(fireStore, "photographers");
+  const { uploadImage } = useStorage();
 
   const [photographers, setPhotographers] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -23,6 +25,7 @@ export const useAdminPhotographers = () => {
       const { docs } = await getDocsFromServer(query(table));
       setPhotographers(docs.map((doc) => ({ ...doc.data(), id: doc.id })));
     } catch (e) {
+      return "";
     } finally {
       setLoading(false);
     }
@@ -39,10 +42,16 @@ export const useAdminPhotographers = () => {
     }
   };
 
-  const registerPhotographer = async (profile) => {
+  const registerPhotographer = async (profile, images) => {
     setLoading(true);
     try {
-      await addDoc(table, profile);
+      // upload images to storage
+      const imgs = [];
+      if (images.image1) imgs.push(images.image1);
+      if (images.image2) imgs.push(images.image2);
+      const imageLinks = await Promise.all(imgs.map(uploadImage));
+      // add record to database
+      await addDoc(table, { ...profile, imageLinks });
       await getPhotographerList();
     } catch (e) {
     } finally {

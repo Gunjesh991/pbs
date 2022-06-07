@@ -1,0 +1,32 @@
+.input__field .image__uploader {
+  height: 150px;
+  width: 100%;
+
+  display: grid;
+  grid-template-columns: repeat(2, 5fr);
+  gap: 10px;
+}
+
+.image__uploader .field {
+  margin: 10px 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  border-radius: 8px;
+  border: 2px solid gray;
+}
+.image__input {
+  width: 100%;
+  height: 100%;
+}
+.placebo {
+  width: 100%;
+  height: 100%;
+  cursor: pointer;
+  background-color: #e8e8e8;
+}
+.placebo img {
+  height: 100%;
+  width: 100%;
+  object-fit: cover;
+}

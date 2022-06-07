@@ -1,6 +1,9 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAdminPhotographers } from "../../hooks/useAdminPhotographers";
+import ImageUpload from "../ImageUpload";
+
+import "./styles.css";
 
 const RegisterPhotographer = () => {
   const { loading, registerPhotographer } = useAdminPhotographers();
@@ -13,6 +16,7 @@ const RegisterPhotographer = () => {
     additionalInformation: "",
     experience: "",
   });
+  const [images, setImages] = useState({ image1: null, image2: null });
 
   const updatePersonalInfo = (field) => (e) => {
     setPersonalDetails((prev) => ({
@@ -21,9 +25,16 @@ const RegisterPhotographer = () => {
     }));
   };
 
+  const updateLocalImages = (field) => (image) => {
+    setImages((prev) => ({
+      ...prev,
+      [field]: image,
+    }));
+  };
+
   const onSubmit = (e) => {
     e.preventDefault();
-    registerPhotographer(personalDetails).then(() => {
+    registerPhotographer(personalDetails, images).then(() => {
       navigate("/admin/photographers");
     });
   };
@@ -97,6 +108,17 @@ const RegisterPhotographer = () => {
               value={personalDetails.experience}
               onChange={updatePersonalInfo("experience")}
             ></textarea>
+          </div>
+          <div className="input__field optional">
+            <label>Images</label>
+            <div className="image__uploader">
+              <div className="field">
+                <ImageUpload setImage={updateLocalImages("image1")} />
+              </div>
+              <div className="field">
+                <ImageUpload setImage={updateLocalImages("image2")} />
+              </div>
+            </div>
           </div>
           <button disabled={loading} type="submit">
             Register

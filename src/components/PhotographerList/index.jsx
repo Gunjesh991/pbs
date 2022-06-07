@@ -28,7 +28,6 @@ const PhotographerList = () => {
           ))}
         </ul>
       </div>
-      ;
     </div>
   );
 };
