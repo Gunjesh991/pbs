@@ -1,12 +1,15 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAdminPhotographers } from "../../hooks/useAdminPhotographers";
+import { useStorage } from "../../hooks/useStorage";
 import ImageUpload from "../ImageUpload";
 
 import "./styles.css";
 
-const RegisterPhotographer = () => {
-  const { loading, registerPhotographer } = useAdminPhotographers();
+const RegisterPhotographer = ({ profile = null, id = "" }) => {
+  const { loading, registerPhotographer, updatePhotographer } =
+    useAdminPhotographers();
+  const { getImageLinks } = useStorage();
   const navigate = useNavigate();
 
   const [personalDetails, setPersonalDetails] = useState({
@@ -17,6 +20,19 @@ const RegisterPhotographer = () => {
     experience: "",
   });
   const [images, setImages] = useState({ image1: null, image2: null });
+  const [localImages, setLocalImages] = useState([]);
+
+  useEffect(() => {
+    if (!profile) return;
+    setPersonalDetails({
+      fullName: profile.fullName,
+      email: profile.email,
+      phone: profile.phone,
+      additionalInformation: profile.additionalInformation,
+      experience: profile.experience,
+    });
+    getImageLinks(profile, setLocalImages);
+  }, [profile]);
 
   const updatePersonalInfo = (field) => (e) => {
     setPersonalDetails((prev) => ({
@@ -34,9 +50,14 @@ const RegisterPhotographer = () => {
 
   const onSubmit = (e) => {
     e.preventDefault();
-    registerPhotographer(personalDetails, images).then(() => {
-      navigate("/admin/photographers");
-    });
+    if (profile)
+      updatePhotographer(id, personalDetails, images).then(() => {
+        navigate("/admin/photographers");
+      });
+    else
+      registerPhotographer(personalDetails, images).then(() => {
+        navigate("/admin/photographers");
+      });
   };
 
   return (
@@ -44,7 +65,7 @@ const RegisterPhotographer = () => {
       {/* form */}
       <div className="register__form">
         <form onSubmit={onSubmit}>
-          <h2>Register Photographer</h2>
+          <h2>{profile ? "Edit Profile" : "Register Photographer"}</h2>
 
           <div className="input__field">
             <label htmlFor="fullName">Full Name</label>
@@ -113,15 +134,21 @@ const RegisterPhotographer = () => {
             <label>Images</label>
             <div className="image__uploader">
               <div className="field">
-                <ImageUpload setImage={updateLocalImages("image1")} />
+                <ImageUpload
+                  preview={localImages[0]}
+                  setImage={updateLocalImages("image1")}
+                />
               </div>
               <div className="field">
-                <ImageUpload setImage={updateLocalImages("image2")} />
+                <ImageUpload
+                  preview={localImages[1]}
+                  setImage={updateLocalImages("image2")}
+                />
               </div>
             </div>
           </div>
           <button disabled={loading} type="submit">
-            Register
+            {profile ? "Edit Profile" : "Register"}
           </button>
         </form>
       </div>

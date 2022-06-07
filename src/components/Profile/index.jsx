@@ -9,7 +9,7 @@ import "./profile.css";
 const Profile = () => {
   const { id = "" } = useParams();
   const { getPhotographerProfile, profile } = usePhotographers();
-  const { getImageUrl } = useStorage();
+  const { getImageLinks } = useStorage();
 
   const [images, setImages] = useState([]);
 
@@ -18,12 +18,8 @@ const Profile = () => {
   }, [id]);
 
   useEffect(() => {
-    if (!profile.data || !profile.data.imageLinks) return;
-    const links = profile.data.imageLinks;
-    Promise.all(links.filter((i) => !!i).map(getImageUrl))
-      .then(setImages)
-      .catch((e) => {});
-  }, [profile]);
+    getImageLinks(profile.data, setImages);
+  }, [profile.data]);
 
   return (
     <div className="profile">

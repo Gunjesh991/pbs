@@ -6,6 +6,7 @@ import {
   getDocsFromServer,
   getFirestore,
   query,
+  setDoc,
 } from "firebase/firestore";
 import { useState } from "react";
 import { app } from "../utils/firebase";
@@ -59,11 +60,32 @@ export const useAdminPhotographers = () => {
     }
   };
 
+  const updatePhotographer = async (id, profile, images) => {
+    setLoading(true);
+    try {
+      // upload images to storage
+      const imgs = [];
+      if (images.image1) imgs.push(images.image1);
+      if (images.image2) imgs.push(images.image2);
+      const imageLinks = await Promise.all(imgs.map(uploadImage));
+      // add record to database
+      await setDoc(doc(table, id), {
+        ...profile,
+        imageLinks,
+      });
+      await getPhotographerList();
+    } catch (e) {
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return {
     loading,
     photographers,
     getPhotographerList,
     getPhotographerProfile,
     registerPhotographer,
+    updatePhotographer,
   };
 };

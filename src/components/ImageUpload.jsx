@@ -1,16 +1,19 @@
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
-const ImageUpload = ({ setImage = null }) => {
+const ImageUpload = ({ setImage = null, preview = "" }) => {
   let ref = useRef(null);
 
-  const [file, setFile] = useState(null);
   const [localUrl, setLocalUrl] = useState(null);
+
+  useEffect(() => {
+    if (!preview.length) return;
+    setLocalUrl(preview);
+  }, [preview]);
 
   const onChange = (e) => {
     const file = e.target.files[0];
     const url = URL.createObjectURL(file);
     setLocalUrl(url);
-    setFile(file);
     setImage && typeof setImage == "function" && setImage(file);
   };
 

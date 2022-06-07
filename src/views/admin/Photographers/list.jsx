@@ -3,7 +3,7 @@ import { useEffect } from "react";
 import { useAdminPhotographers } from "../../../hooks/useAdminPhotographers";
 import { useLocation, useNavigate } from "react-router-dom";
 
-const _columns = [
+const _columns = (onEdit = () => {}) => [
   {
     name: "Name",
     selector: (row) => row.fullName,
@@ -15,6 +15,15 @@ const _columns = [
   {
     name: "Mobile",
     selector: (row) => row.phone,
+  },
+  {
+    name: "",
+    right: true,
+    cell: (row) => (
+      <div>
+        <button onClick={() => onEdit(row.id)}>Edit</button>
+      </div>
+    ),
   },
 ];
 
@@ -31,6 +40,10 @@ const PhotographerList = () => {
 
   const gotoRegister = () => {
     navigate(location.pathname + "/register");
+  };
+
+  const onEdit = (id) => {
+    navigate(`/admin/photographers/edit/${id}`);
   };
 
   return (
@@ -51,7 +64,7 @@ const PhotographerList = () => {
         highlightOnHover
         progressPending={loading}
         data={photographers}
-        columns={_columns}
+        columns={_columns(onEdit)}
         noDataComponent={
           <div style={{ textAlign: "center" }}>
             <p>There are no photographers registered yet.</p>

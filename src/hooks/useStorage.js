@@ -11,6 +11,16 @@ export const useStorage = () => {
     } catch (e) {}
   };
 
+  const getImageLinks = (profile, setImages = () => {}) => {
+    if (!profile || !profile.imageLinks) return;
+    const links = profile.imageLinks;
+    Promise.all(links.filter((i) => !!i).map(getImageUrl))
+      .then(setImages)
+      .catch((e) => {
+        setImages([]);
+      });
+  };
+
   const uploadImage = async (imageFile) => {
     try {
       const bucketRef = ref(
@@ -22,5 +32,5 @@ export const useStorage = () => {
     } catch (e) {}
   };
 
-  return { uploadImage, getImageUrl };
+  return { uploadImage, getImageUrl, getImageLinks };
 };
