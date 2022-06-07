@@ -11,16 +11,12 @@ const PhotographerList = () => {
     getPhotographerList();
   }, []);
 
-  useEffect(() => {
-    if (!photographers.length) return;
-    console.log({ photographers });
-  }, [photographers]);
-
   return (
     <div className="safe">
       <div className="photographers__list">
         <h2>Photographers</h2>
         <ul>
+          {loading && <p>Loading...</p>}
           {photographers.map((item) => (
             <li key={item.id}>
               <Link to={`/photographers/${item.id}`}>

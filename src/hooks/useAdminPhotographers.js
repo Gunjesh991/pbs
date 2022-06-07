@@ -1,6 +1,7 @@
 import {
   addDoc,
   collection,
+  doc,
   getDoc,
   getDocsFromServer,
   getFirestore,
@@ -30,8 +31,8 @@ export const useAdminPhotographers = () => {
   const getPhotographerProfile = async (id) => {
     setLoading(true);
     try {
-      const { data } = await getDoc(table, id);
-      return data;
+      const docSnap = await getDoc(doc(fireStore, "photographers", id));
+      return docSnap.exists() ? docSnap.data() : null;
     } catch (e) {
     } finally {
       setLoading(false);

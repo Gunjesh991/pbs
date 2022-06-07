@@ -1,46 +1,62 @@
-import React from "react";
+import { useEffect } from "react";
+import { useParams } from "react-router-dom";
 
 import ProfileMain from "../../assets/me/2.jpg";
 import ProfileSec from "../../assets/me/3.jpg";
+import { usePhotographers } from "../../hooks/usePhotographers";
 
 import "./profile.css";
 
 const Profile = () => {
+  const { id = "" } = useParams();
+  const { getPhotographerProfile, profile } = usePhotographers();
+
+  useEffect(() => {
+    getPhotographerProfile(id);
+  }, [id]);
+
+  useEffect(() => {
+    console.log({ dt: profile.data });
+  }, [profile.data]);
+
   return (
     <div className="profile">
-      <div className="profile__header">My Profile</div>
-      <div className="profile__description">
-        Hi! Gunjesh Basnet here. I am a professional photographer with more than
-        3 years of hands-on experience. I specialize on wedding photoshoot, trip
-        documentation as well as modelling and advertisements. My goto weapon of
-        choice is Nikon D750 Full-Frame. I also own a Sony Alpha a7iv, a Canon
-        80D and some Nikon D7100 with all the lens kit necessary to capture all
-        your memorable moment in high quality.
-      </div>
-      <div className="profile__image">
-        <img src={ProfileMain} alt="profile" />
-      </div>
+      {profile.loading && <p>Loading...</p>}
+      {!profile.loading && profile.data && (
+        <>
+          <div className="profile__header">{profile.data.fullName}</div>
+          <div className="profile__description">
+            <p
+              dangerouslySetInnerHTML={{
+                __html: profile.data.additionalInformation,
+              }}
+            ></p>
+          </div>
+          <div className="profile__image">
+            <img src={ProfileMain} alt="profile" />
+          </div>
 
-      <div className="profile__description">
-        Hi! Gunjesh Basnet here. I am a professional photographer with more than
-        3 years of hands-on experience. I specialize on wedding photoshoot, trip
-        documentation as well as modelling and advertisements. My goto weapon of
-        choice is Nikon D750 Full-Frame. I also own a Sony Alpha a7iv, a Canon
-        80D and some Nikon D7100 with all the lens kit necessary to capture all
-        your memorable moment in high quality.
-      </div>
+          <div className="profile__description">
+            <p
+              dangerouslySetInnerHTML={{
+                __html: profile.data.experience,
+              }}
+            ></p>
+          </div>
 
-      <div className="profile__image">
-        <img src={ProfileSec} alt="profile" />
-      </div>
+          <div className="profile__image">
+            <img src={ProfileSec} alt="profile" />
+          </div>
 
-      <div className="profile__description" style={{ textAlign: "left" }}>
-        Contact me personally on{" "}
-        <a href="mailto:gunjeshphotography@gmail.com">
-          gunjeshphotography@gmail.com
-        </a>
-        .
-      </div>
+          <div className="profile__description" style={{ textAlign: "left" }}>
+            Contact me personally on{" "}
+            <a href="mailto:gunjeshphotography@gmail.com">
+              gunjeshphotography@gmail.com
+            </a>
+            .
+          </div>
+        </>
+      )}
     </div>
   );
 };
