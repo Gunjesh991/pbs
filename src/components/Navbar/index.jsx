@@ -72,8 +72,8 @@ const Navbar = () => {
           <div className={`nav__panel ${mobileNavOpen ? "view" : ""}`}>
             <ul>
               <li>
-                <NavLink onClick={hide} to="/me">
-                  About Me
+                <NavLink onClick={hide} to="/photographers">
+                  Photographers
                 </NavLink>
               </li>
               <li>
