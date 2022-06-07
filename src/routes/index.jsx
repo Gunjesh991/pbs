@@ -6,16 +6,30 @@ import ProfileView from "../views/ProfileView";
 import EstimateView from "../views/EstimateView";
 import BookView from "../views/BookView";
 import PortfolioView from "../views/PortfolioView";
+import AdminRoute from "../views/admin";
+import Photographers from "../views/admin/Photographers";
+import PhotographerList from "../views/admin/Photographers/list";
+import Register from "../views/admin/Photographers/register";
+import PhotographerListView from "../views/PhotographerListView";
 
 const AppRoutes = () => {
   return (
     <>
       <Routes>
         <Route index element={<HomeView />} />
-        <Route path="/me" element={<ProfileView />} />
+        <Route path="/photographers" element={<PhotographerListView />} />
+        <Route path="/photographers/:id" element={<ProfileView />} />
         <Route path="/portfolio" element={<PortfolioView />} />
         <Route path="/estimate" element={<EstimateView />} />
         <Route path="/hire" element={<BookView />} />
+
+        {/* admin */}
+        <Route path="admin" element={<AdminRoute />}>
+          <Route path="photographers" element={<Photographers />}>
+            <Route index element={<PhotographerList />} />
+            <Route path="register" element={<Register />} />
+          </Route>
+        </Route>
       </Routes>
     </>
   );

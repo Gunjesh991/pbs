@@ -24,3 +24,18 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
 }
+
+button {
+  border: 0;
+  padding: 10px 15px;
+  color: white;
+  background-color: #7a46aa;
+  border-radius: 3px;
+  cursor: pointer;
+  font-size: 16px;
+}
+.safe {
+  width: 100%;
+  max-width: 1440px;
+  margin: 0 auto;
+}

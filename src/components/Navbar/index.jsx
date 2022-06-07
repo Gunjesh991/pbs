@@ -22,7 +22,7 @@ const Navbar = () => {
           <div className="nav__menu">
             <ul>
               <li>
-                <NavLink to="/me">About Me</NavLink>
+                <NavLink to="/photographers">Photographers</NavLink>
               </li>
               <li>
                 <NavLink to="/portfolio">Portfolio</NavLink>
