@@ -47,12 +47,12 @@ const Navbar = () => {
                 {isSignedIn ? (
                   <button>{user.displayName}</button>
                 ) : (
-                  <button onClick={() => signIn()}>Hire Me</button>
+                  <button onClick={() => signIn()}>Sign In</button>
                 )}
               </li>
               {isSignedIn ? (
                 <li>
-                  <button onClick={() => signOut()}>Logout</button>
+                  <button onClick={() => signOut()}>Sign Out</button>
                 </li>
               ) : null}
             </ul>
@@ -90,12 +90,12 @@ const Navbar = () => {
                 {isSignedIn ? (
                   <button>{user.displayName}</button>
                 ) : (
-                  <button onClick={() => signIn()}>Hire Me</button>
+                  <button onClick={() => signIn()}>Sign In</button>
                 )}
               </li>
               {isSignedIn ? (
                 <li>
-                  <button onClick={() => signOut()}>Logout</button>
+                  <button onClick={() => signOut()}>Sign Out</button>
                 </li>
               ) : null}
             </ul>

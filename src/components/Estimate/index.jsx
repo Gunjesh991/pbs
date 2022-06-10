@@ -5,7 +5,8 @@ import EstimatePackageCheckbox from "../EstimatePackageCheckbox";
 
 import "./estimate.css";
 import useEstimate from "../../hooks/useEstimate";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
+import { useAuth } from "../../hooks/useAuth";
 
 const __eventType = [
   {
@@ -60,11 +61,22 @@ const Estimate = () => {
   const { estimation, estimationObj, updateEstimationObj, saveEstimation } =
     useEstimate();
 
+  const { isSignedIn, signIn } = useAuth();
+
   const navigate = useNavigate();
+  const location = useLocation();
 
-  const gotoHire = () => navigate("/hire");
+  const pidUrl = `/hire?pid=${
+    new URLSearchParams(location.search).get("pid") || ""
+  }`;
 
-  const skipEstimation = () => gotoHire();
+  const gotoHire = async () =>
+    isSignedIn ? navigate(pidUrl) : (await signIn()) && navigate(pidUrl);
+
+  const skipEstimation = () => {
+    localStorage.removeItem("estimation");
+    gotoHire();
+  };
 
   const proceedToHire = () => {
     saveEstimation();

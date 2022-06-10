@@ -65,7 +65,8 @@
   content: " ";
 }
 .input__field input,
-.input__field textarea {
+.input__field textarea,
+.photographers__select select {
   height: 40px;
   border: none;
   border-bottom: 1px solid #333;
@@ -81,7 +82,7 @@
 .input__field textarea {
   resize: vertical;
 }
-.hire__body form button[type="submit"] {
+.hire__body button[type="submit"] {
   width: 100%;
   background: var(--color-accent);
   border: none;
@@ -91,9 +92,28 @@
   font-family: var(--ff-main);
   font-size: 16px;
 }
-
+.estimate__details {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+.estimate__details .est {
+  padding-bottom: 175px;
+}
+.event__details {
+  margin-bottom: 50px;
+}
+.photographers__select select {
+  width: 75%;
+}
 @media (max-width: 480px) {
   .hire__body {
     grid-template-columns: 10fr;
+  }
+  .estimate__details .est {
+    padding-bottom: 0;
+  }
+  .photographers__select select {
+    width: 100%;
   }
 }
