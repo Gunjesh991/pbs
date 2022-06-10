@@ -103,6 +103,9 @@
 .event__details {
   margin-bottom: 50px;
 }
+.event__details input[type="date"] {
+  width: 100%;
+}
 .photographers__select select {
   width: 75%;
 }
