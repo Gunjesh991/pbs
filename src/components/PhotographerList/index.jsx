@@ -22,6 +22,9 @@ const PhotographerList = () => {
               <Link to={`/photographers/${item.id}`}>
                 <div className="list__item">
                   <h4>{item.fullName}</h4>
+                  <Link to={`/portfolio/${item.id}`}>
+                    <button>View Portfolio</button>
+                  </Link>
                 </div>
               </Link>
             </li>

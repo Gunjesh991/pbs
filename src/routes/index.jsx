@@ -22,7 +22,7 @@ const AppRoutes = () => {
         <Route index element={<HomeView />} />
         <Route path="/photographers" element={<PhotographerListView />} />
         <Route path="/photographers/:id" element={<ProfileView />} />
-        <Route path="/portfolio" element={<PortfolioView />} />
+        <Route path="/portfolio/:pid" element={<PortfolioView />} />
         <Route path="/estimate" element={<EstimateView />} />
         <Route path="/hire" element={<BookView />} />
 
