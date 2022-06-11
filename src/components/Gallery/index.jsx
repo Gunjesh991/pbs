@@ -1,11 +1,11 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { usePortfolio } from "../../hooks/usePortfolio";
 import { useStorage } from "../../hooks/useStorage";
 import { usePhotographers } from "../../hooks/usePhotographers";
 
 import "./gallery.css";
 
-const Gallery = ({ id = "" }) => {
+const Gallery = ({ id = "", links = [] }) => {
   const { getImageLinks } = useStorage();
   const { loading, portfolio, getPortfolios } = usePortfolio();
   const {
@@ -14,7 +14,7 @@ const Gallery = ({ id = "" }) => {
     profile,
   } = usePhotographers();
 
-  const [links, setLinks] = useState([]);
+  const [_links, setLinks] = useState([]);
 
   useEffect(() => {
     getPhotographerProfile(id);
@@ -25,7 +25,7 @@ const Gallery = ({ id = "" }) => {
     getImageLinks({ imageLinks: portfolio }, setLinks);
   }, [portfolio]);
 
-  return (
+  return id.length ? (
     <>
       <div className="header" style={{ marginBottom: 20 }}>
         {profileLoading && <p>Loading...</p>}
@@ -39,7 +39,7 @@ const Gallery = ({ id = "" }) => {
         <div className="gallery__container">
           <div className="gallery__wrapper">
             {loading && <p>Loading...</p>}
-            {links.map((_link, index) => {
+            {_links.map((_link, index) => {
               return (
                 <div
                   key={index}
@@ -53,6 +53,23 @@ const Gallery = ({ id = "" }) => {
         </div>
       </div>
     </>
+  ) : (
+    <div className="gallery" style={{ height: "fit-content" }}>
+      <div className="gallery__container">
+        <div className="gallery__wrapper">
+          {links.map((_link, index) => {
+            return (
+              <div
+                key={index}
+                style={{
+                  backgroundImage: `url('${_link}')`,
+                }}
+              ></div>
+            );
+          })}
+        </div>
+      </div>
+    </div>
   );
 };
 
