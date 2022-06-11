@@ -19,14 +19,3 @@
   width: 100%;
   height: 100%;
 }
-.placebo {
-  width: 100%;
-  height: 100%;
-  cursor: pointer;
-  background-color: #e8e8e8;
-}
-.placebo img {
-  height: 100%;
-  width: 100%;
-  object-fit: cover;
-}

@@ -1,7 +1,7 @@
 import DataTable from "react-data-table-component";
 import { useEffect } from "react";
 import { useAdminPhotographers } from "../../../hooks/useAdminPhotographers";
-import { useLocation, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 
 const _columns = (onEdit = () => {}) => [
   {
@@ -15,6 +15,15 @@ const _columns = (onEdit = () => {}) => [
   {
     name: "Mobile",
     selector: (row) => row.phone,
+  },
+  {
+    name: "",
+    center: true,
+    cell: (row) => (
+      <Link to={`/admin/portfolio/${row.id}`}>
+        <button>Portfolio</button>
+      </Link>
+    ),
   },
   {
     name: "",

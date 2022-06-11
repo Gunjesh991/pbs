@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 
-const ImageUpload = ({ setImage = null, preview = "" }) => {
+const ImageUpload = ({ setImage = null, preview = "", refresh = true }) => {
   let ref = useRef(null);
 
   const [localUrl, setLocalUrl] = useState(null);
@@ -12,8 +12,10 @@ const ImageUpload = ({ setImage = null, preview = "" }) => {
 
   const onChange = (e) => {
     const file = e.target.files[0];
-    const url = URL.createObjectURL(file);
-    setLocalUrl(url);
+    if (!refresh) {
+      const url = URL.createObjectURL(file);
+      setLocalUrl(url);
+    }
     setImage && typeof setImage == "function" && setImage(file);
   };
 
@@ -29,6 +31,7 @@ const ImageUpload = ({ setImage = null, preview = "" }) => {
       />
       <div onClick={() => ref.current?.click()} className="placebo">
         {localUrl && <img src={localUrl} alt="local selected" />}
+        {!localUrl && <p>Add Photo</p>}
       </div>
     </div>
   );

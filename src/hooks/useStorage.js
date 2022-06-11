@@ -21,16 +21,18 @@ export const useStorage = () => {
       });
   };
 
-  const uploadImage = async (imageFile) => {
-    try {
-      const bucketRef = ref(
-        bucketStorage,
-        `photographers/${imageFile.lastModified}_${imageFile.name}`
-      );
-      const uped = await uploadBytes(bucketRef, imageFile);
-      return uped.ref.fullPath;
-    } catch (e) {}
-  };
+  const uploadImage =
+    (folder = "") =>
+    async (imageFile) => {
+      try {
+        const bucketRef = ref(
+          bucketStorage,
+          `${folder}/${imageFile.lastModified}_${imageFile.name}`
+        );
+        const uped = await uploadBytes(bucketRef, imageFile);
+        return uped.ref.fullPath;
+      } catch (e) {}
+    };
 
   return { uploadImage, getImageUrl, getImageLinks };
 };

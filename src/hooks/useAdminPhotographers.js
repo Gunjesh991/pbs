@@ -50,7 +50,9 @@ export const useAdminPhotographers = () => {
       const imgs = [];
       if (images.image1) imgs.push(images.image1);
       if (images.image2) imgs.push(images.image2);
-      const imageLinks = await Promise.all(imgs.map(uploadImage));
+      const imageLinks = await Promise.all(
+        imgs.map(uploadImage("photographers"))
+      );
       // add record to database
       await addDoc(table, { ...profile, imageLinks });
       await getPhotographerList();
@@ -67,7 +69,9 @@ export const useAdminPhotographers = () => {
       const imgs = [];
       if (images.image1) imgs.push(images.image1);
       if (images.image2) imgs.push(images.image2);
-      const imageLinks = await Promise.all(imgs.map(uploadImage));
+      const imageLinks = await Promise.all(
+        imgs.map(uploadImage("photographers"))
+      );
       // add record to database
       await setDoc(doc(table, id), {
         ...profile,

@@ -12,6 +12,8 @@ import PhotographerList from "../views/admin/Photographers/list";
 import Register from "../views/admin/Photographers/register";
 import PhotographerListView from "../views/PhotographerListView";
 import EditPhotographer from "../views/admin/Photographers/edit";
+import AdminPortfolioView from "../views/admin/Portfolio";
+import PersonView from "../views/admin/Portfolio/PersonView";
 
 const AppRoutes = () => {
   return (
@@ -30,6 +32,9 @@ const AppRoutes = () => {
             <Route index element={<PhotographerList />} />
             <Route path="edit/:id" element={<EditPhotographer />} />
             <Route path="register" element={<Register />} />
+          </Route>
+          <Route path="portfolio" element={<AdminPortfolioView />}>
+            <Route path=":pid" element={<PersonView />} />
           </Route>
         </Route>
       </Routes>
