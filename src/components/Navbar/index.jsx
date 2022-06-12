@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useMemo, useState } from "react";
 import { NavLink } from "react-router-dom";
 import Modal from "../Modal";
 
@@ -39,8 +39,11 @@ const Navbar = () => {
 
   const toggleModal = () => setModalOpen((prev) => !prev);
 
-  useEffect(() => {
-    console.log({ user });
+  const userName = useMemo(() => {
+    if (!user) return "";
+    return user.displayName?.length
+      ? user.displayName
+      : user.email?.split("@")[0];
   }, [user]);
 
   return (
@@ -51,7 +54,9 @@ const Navbar = () => {
         title="Sign In Options"
       >
         <div className="signin__options">
-          <button onClick={() => signIn()}>Sign In with Google</button>
+          <button onClick={() => signIn().then(() => setModalOpen(false))}>
+            Sign In with Google
+          </button>
           <hr />
           <form onSubmit={onEmailSignIn}>
             <div className="input__field">
@@ -107,11 +112,7 @@ const Navbar = () => {
               </li>
               <li>
                 {isSignedIn ? (
-                  <button>
-                    {user.displayName?.length
-                      ? user.displayName
-                      : user.email.split("@")[0]}
-                  </button>
+                  <button>{userName}</button>
                 ) : (
                   <button onClick={toggleModal}>Sign In</button>
                 )}
@@ -154,11 +155,7 @@ const Navbar = () => {
               </li>
               <li>
                 {isSignedIn ? (
-                  <button>
-                    {user.displayName?.length
-                      ? user.displayName
-                      : user.email.split("@")[0]}
-                  </button>
+                  <button>{userName}</button>
                 ) : (
                   <button
                     onClick={() => {
