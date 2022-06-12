@@ -103,6 +103,28 @@ li a {
   font-size: 1.5em;
   margin: 35px 0;
 }
+.signin__options {
+  width: 100%;
+  margin: 35px 0;
+}
+.signin__options hr {
+  margin: 35px 0;
+}
+.signin__options form {
+  width: 100%;
+}
+.signin__options form .input__field {
+  width: 100%;
+  margin-bottom: 20px;
+}
+.signin__options button {
+  width: 100%;
+}
+
+.signin__options form .input__field input {
+  width: 100%;
+}
+
 @media (max-width: 480px) {
   .navbar__container {
     justify-content: center;
