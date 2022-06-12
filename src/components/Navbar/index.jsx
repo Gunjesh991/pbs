@@ -18,10 +18,7 @@ const Navbar = () => {
   const [creds, setCreds] = useState({ email: "", password: "" });
 
   const updateCreds = (field) => (e) => {
-    setCreds((prev) => ({
-      ...prev,
-      [field]: e.target.value,
-    }));
+    setCreds((prev) => ({ ...prev, [field]: e.target.value }));
   };
 
   const onEmailSignIn = (e) => {
@@ -91,9 +88,6 @@ const Navbar = () => {
               <li>
                 <NavLink to="/photographers">Photographers</NavLink>
               </li>
-              <li>
-                <NavLink to="/portfolio">Portfolio</NavLink>
-              </li>
             </ul>
           </div>
           {/* logo */}
@@ -141,11 +135,6 @@ const Navbar = () => {
               <li>
                 <NavLink onClick={hide} to="/photographers">
                   Photographers
-                </NavLink>
-              </li>
-              <li>
-                <NavLink onClick={hide} to="/portfolio">
-                  Portfolio
                 </NavLink>
               </li>
               <li>
