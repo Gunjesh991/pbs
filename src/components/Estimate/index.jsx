@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import EstimatePackageDropdown from "../EstimatePackageDropdown";
 import EstimatePackageRangeInput from "../EstimatePackageRangeInput";
 import EstimatePackageCheckbox from "../EstimatePackageCheckbox";
@@ -7,6 +7,7 @@ import "./estimate.css";
 import useEstimate from "../../hooks/useEstimate";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useAuth } from "../../hooks/useAuth";
+import SignInModal from "../Navbar/SignInModal";
 
 const __eventType = [
   {
@@ -61,7 +62,8 @@ const Estimate = () => {
   const { estimation, estimationObj, updateEstimationObj, saveEstimation } =
     useEstimate();
 
-  const { isSignedIn, signIn } = useAuth();
+  const { isSignedIn } = useAuth();
+  const [modalOpen, setModalOpen] = useState(false);
 
   const navigate = useNavigate();
   const location = useLocation();
@@ -71,7 +73,7 @@ const Estimate = () => {
   }`;
 
   const gotoHire = async () =>
-    isSignedIn ? navigate(pidUrl) : (await signIn()) && navigate(pidUrl);
+    isSignedIn ? navigate(pidUrl) : setModalOpen(true);
 
   const skipEstimation = () => {
     localStorage.removeItem("estimation");
@@ -85,6 +87,11 @@ const Estimate = () => {
 
   return (
     <>
+      <SignInModal
+        modalOpen={modalOpen}
+        setModalOpen={setModalOpen}
+        onSignInComplete={() => navigate(pidUrl)}
+      />
       <div className="estimate">
         <div className="estimate__wrapper">
           {/* header */}

@@ -15,7 +15,6 @@ export const usePhotographers = () => {
   });
 
   const getPhotographerProfile = async (id = string) => {
-    console.log({ pid: id });
     setProfile((prev) => ({ ...prev, loading: true }));
     try {
       const _profile = await getProfile(id);
